@@ -1,8 +1,7 @@
 // Eight queens problem using backtracking recurison.
 // 
 
-#include <cstdio>
-#include <math.h>
+#include <iostream>
 
 #define N 8
 
@@ -14,10 +13,10 @@ void search(unsigned & row);
 
 int main() 
 {
-	printf("%d queens problem:\n", N);
+	std::cout << N << " queens problem:" << std::endl;
 	unsigned row = 0;
 	search(row);
-	printf("%d soluntions", count);
+	std::cout << count << " solutions!" << std::endl;
 	return 0;
 }
 
@@ -25,7 +24,7 @@ bool check(const unsigned & row)
 {
 	for (size_t i = 0; i < row; i++) 
 	{
-		if (position[i] == position[row] || row - i == abs(position[row] - position[i])) 
+		if (position[i] == position[row] || row - i == abs((int)(position[row] - position[i])))
 		{
 			return false;
 		}
