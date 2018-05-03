@@ -11,7 +11,7 @@ static unsigned position[N] = { 0 };		// Place the kth Queen at row k, column po
 bool check(const unsigned & row);
 void search(unsigned & row);
 
-int main() 
+int main()
 {
 	std::cout << N << " queens problem:" << std::endl;
 	unsigned row = 0;
@@ -20,9 +20,9 @@ int main()
 	return 0;
 }
 
-bool check(const unsigned & row) 
+bool check(const unsigned & row)
 {
-	for (size_t i = 0; i < row; i++) 
+	for (size_t i = 0; i < row; i++)
 	{
 		if (position[i] == position[row] || row - i == abs((int)(position[row] - position[i])))
 		{
@@ -32,9 +32,9 @@ bool check(const unsigned & row)
 	return true;
 }
 
-void search(unsigned & row) 
+void search(unsigned & row)
 {
-	if (row >= N) 
+	if (row >= N)
 	{
 		++count;
 	}
