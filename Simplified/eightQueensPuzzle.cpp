@@ -43,9 +43,9 @@ void search(unsigned & row)
 		if (check(row))
 		{
 			search(++row);
+			position[row--] = 0;		// Backtrack
 		}
 		++position[row];
 	}
-	position[row--] = 0;		// Backtrack
 }
 
