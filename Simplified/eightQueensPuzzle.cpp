@@ -1,12 +1,13 @@
-// Eight queens problem using backtracking recurison.
-// 
+/*
+ * This program solves the problem of Eight Queens Puzzle using recursive backtracking algorithm
+ */ 
 
 #include <iostream>
 
 #define N 8
 
 static unsigned count = 0;
-static unsigned position[N] = { 0 };		// Place the kth Queen at row k, column position[k].
+static unsigned position[N] = { 0 };		// Place the k-th Queen at row k, column position[k].
 
 bool check(const unsigned & row);
 void search(unsigned & row);
@@ -43,7 +44,7 @@ void search(unsigned & row)
 		if (check(row))
 		{
 			search(++row);
-			position[row--] = 0;		// Backtrack
+			position[row--] = 0;		// Backtracking
 		}
 		++position[row];
 	}
