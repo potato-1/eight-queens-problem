@@ -1,6 +1,7 @@
 /*
  * This program solves the problem of Eight Queens Puzzle using recursive backtracking algorithm
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -38,6 +39,7 @@ void search(unsigned row)
 	if (row >= N) 
 	{
 		++count;
+		return;
 	}
 	while (position[row] < N)
 	{
