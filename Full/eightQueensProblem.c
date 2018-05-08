@@ -12,17 +12,15 @@ static unsigned	count = 0;
 // Core functions
 bool check(const unsigned position[], const unsigned n, const unsigned row);
 void search(unsigned position[], const unsigned n, unsigned row, FILE *Data);
+void saveSolution(const unsigned position[], const unsigned n, FILE *Data);
 
 // Output functions
-void printPosition(const unsigned position[], const unsigned n, FILE *Data);
-void printChessboard(const unsigned position[], const unsigned n);
+void printSolutions();
+void printChessboard(unsigned n);
 
 int main()
 {
-	unsigned n;										// Chessboard size.
-
-	FILE *Data;
-	Data = fopen("Data.txt", "w+");					// File to save those solutions.
+	unsigned n;						// Chessboard size.
 
 	puts("N Queens Puzzle");
 
@@ -38,17 +36,22 @@ int main()
 	// Allocate memory for position array to temporary store the solution.
 	unsigned *position = (unsigned *)calloc(n, sizeof(unsigned));
 
+	FILE *Data;
+	Data = fopen("Data", "w");						// Creat a file to save those solutions.
 	// Slove the N queens problem.
 	unsigned row = 0;
 	search(position, n, row, Data);
-	printf("%d solutions!\n", count);
 
 	free((void *)position);
 	fclose(Data);
 
+	printf("%d solutions!\n", count);
+
 	finish = clock();
 	duration = (double)(finish - start) / CLOCKS_PER_SEC;
 	printf("Total time taken by CPU: %lf\n", duration);
+
+	printChessboard(n);
 
 	return 0;
 }
@@ -74,7 +77,7 @@ void search(unsigned position[], const unsigned n, unsigned row, FILE *Data)
 	if (row >= n)
 	{
 		++count;
-		printPosition(position, n, Data);		// Output the solution.
+		saveSolution(position, n, Data);		// Save those solutions.
 	}
 	while (position[row] < n)
 	{
@@ -87,26 +90,50 @@ void search(unsigned position[], const unsigned n, unsigned row, FILE *Data)
 	}
 }
 
-void printPosition(const unsigned position[], const unsigned n, FILE *Data)
+void saveSolution(const unsigned position[], const unsigned n, FILE *Data)
 {
 	// Store the solutions to the Data file.
 	for (size_t i = 0; i < n; i++)
 	{
-		fprintf(Data, "%3u ", position[i]);
+		fprintf(Data, "%2u ", position[i]);
 	}
-	fprintf(Data, "\n");
+	fputs("", Data);
 }
 
-void printChessboard(const unsigned position[], const unsigned n)
+void printSolutions()
 {
-	for (size_t i = 0; i < n; i++)
+	// Print the Data file.
+	int ch;
+	FILE *fr;
+	fr = fopen("Data", "r");
+	ch = getc(fr);
+	while (ch != EOF)
 	{
-		for (size_t j = 0; j < n; j++)
-		{
-			printf(position[i] == j ? "|Q" : "| ");
-		}
-		puts("|");
+		putchar(ch);
+		ch = getc(fr);
 	}
-	puts("");
+	fclose(fr);
+}
+
+void printChessboard(unsigned n)
+{
+	// Print the chessboard with n Queens.
+	unsigned position;
+	FILE *fr;
+	fr = fopen("Data", "r");
+
+	for (size_t i = 0; i < count; i++)
+	{
+		for (size_t row = 0; row < n; row++)
+		{
+			fscanf(fr, "%2d ", &position);
+			for (size_t column = 0; column < n; column++)
+			{
+				printf(column == position ? "|Q" : "| ");
+			}
+			puts("|");
+		}
+		puts("");
+	}
 }
 
