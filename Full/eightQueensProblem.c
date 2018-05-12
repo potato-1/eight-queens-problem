@@ -11,7 +11,7 @@ static unsigned	count = 0;
 
 // Core functions
 bool check(const unsigned position[], const unsigned n, const unsigned row);
-void search(unsigned position[], const unsigned n, unsigned row, FILE *Data);
+void search(unsigned position[], const unsigned n, const unsigned row, FILE *Data);
 void saveSolution(const unsigned position[], const unsigned n, FILE *Data);
 
 // Output functions
@@ -71,7 +71,7 @@ bool check(const unsigned position[], const unsigned n, const unsigned row)
 	return true;
 }
 
-void search(unsigned position[], const unsigned n, unsigned row, FILE *Data)
+void search(unsigned position[], const unsigned n, const unsigned row, FILE *Data)
 {
 	// Search the chessboard.
 	if (row >= n)
@@ -79,14 +79,12 @@ void search(unsigned position[], const unsigned n, unsigned row, FILE *Data)
 		++count;
 		saveSolution(position, n, Data);		// Save those solutions.
 	}
-	while (position[row] < n)
+	for (position[row] = 0; position[row] < n; position[row]++)
 	{
 		if (check(position, n, row))
 		{
-			search(position, n, ++row, Data);	// Search the next row.
-			position[row--] = 0;				// Backtracking.
+			search(position, n, row + 1, Data);
 		}
-		++position[row];						// Try the next position.
 	}
 }
 

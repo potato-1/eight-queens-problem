@@ -10,7 +10,7 @@ static unsigned count = 0;
 static unsigned position[N] = { 0 };		// Place the k-th Queen at row k, column position[k].
 
 bool check(const unsigned & row);
-void search(unsigned & row);
+void search(const unsigned & row);
 
 int main()
 {
@@ -33,20 +33,18 @@ bool check(const unsigned & row)
 	return true;
 }
 
-void search(unsigned & row)
+void search(const unsigned & row)
 {
 	if (row >= N)
 	{
 		++count;
 	}
-	while (position[row] < N)
+	for (position[row] = 0; position[row] < N; position[row]++)
 	{
 		if (check(row))
 		{
-			search(++row);
-			position[row--] = 0;		// Backtracking
+			search(row + 1);
 		}
-		++position[row];
 	}
 }
 
