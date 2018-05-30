@@ -1,5 +1,4 @@
-/*
- * This program solves the problem of Eight Queens Puzzle using recursive backtracking algorithm
+/* This program solves the problem of Eight Queens Puzzle using recursive backtracking algorithm
  */
 
 #include <stdio.h>
