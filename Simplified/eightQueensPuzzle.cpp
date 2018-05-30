@@ -1,31 +1,32 @@
-/*
- * This program solves the problem of Eight Queens Puzzle using recursive backtracking algorithm
+/* This program solves the problem of Eight Queens Puzzle using recursive backtracking algorithm
  */ 
 
 #include <iostream>
+#include <vector>
 
-#define N 8
+using std::vector;
 
 static unsigned count = 0;
-static unsigned position[N] = { 0 };		// Place the k-th Queen at row k, column position[k].
 
-bool check(const unsigned & row);
-void search(const unsigned & row);
+bool check(const unsigned & row, const vector<unsigned> position);
+void search(const unsigned & row, vector<unsigned> position);
 
 int main()
 {
-	std::cout << N << " queens problem:" << std::endl;
-	unsigned row = 0;
-	search(row);
-	std::cout << count << " solutions!" << std::endl;
+	printf("N Queens Problem.\nPlease input n:");
+	size_t n;
+	scanf("%d", &n);
+	vector<unsigned> position(n);		// Place the k-th Queen at row k, column position[k].
+	search(0, position);
+	printf("%d Queens Problem: %d solutions\n", n, count);
 	return 0;
 }
 
-bool check(const unsigned & row)
+bool check(const unsigned & row, const vector<unsigned> position)
 {
 	for (size_t i = 0; i < row; i++)
 	{
-		if (position[i] == position[row] || row - i == abs((int)(position[row] - position[i])))
+		if (position.at(i) == position.at(row) || row - i == abs((int)(position.at(row) - position.at(i))))
 		{
 			return false;
 		}
@@ -33,17 +34,18 @@ bool check(const unsigned & row)
 	return true;
 }
 
-void search(const unsigned & row)
+void search(const unsigned & row, vector<unsigned> position)
 {
-	if (row >= N)
+	if (row >= position.size())
 	{
 		++count;
+		return;
 	}
-	for (position[row] = 0; position[row] < N; position[row]++)
+	for (position[row] = 0; position[row] < position.size(); position[row]++)
 	{
-		if (check(row))
+		if (check(row, position))
 		{
-			search(row + 1);
+			search(row + 1, position);
 		}
 	}
 }
