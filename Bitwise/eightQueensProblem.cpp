@@ -22,7 +22,7 @@ int main()
 	search(0, 0, 0);
 	clock_t finish = clock();
 	double duration = (double)((finish - start) / CLOCKS_PER_SEC);
-	printf("Find %u solutions in %lf clocks\n", count, duration);
+	printf("Find %u solutions in %lf seconds\n", count, duration);
 
 	return 0;
 }
