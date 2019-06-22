@@ -1,46 +1,38 @@
-// This program solves the problem of Eight Queens Puzzle using recursive backtracking algorithm
-// in bitwise operations.
+// This program solves the problem of Eight Queens Puzzle using recursive backtracking algorithm in bitwise operations.
 // 
 
-#include <cstdio>
-#include <ctime>
+#include <cinttypes>
+#include <iostream>
 
-static unsigned done = 1;
-static unsigned count = 0;
+template <typename T>
+class NQueens {
+  const T done = 0;
+  std::size_t counter = 0;
 
-void search(const unsigned column, const unsigned left_diagonal, const unsigned right_diagonal);
+  void search(const T cl, const T ld, const T rd);
+ public:
+  NQueens(std::size_t size)
+      : done{static_cast<T>(~(static_cast<T>(-1) << size))} {}
+  ~NQueens() = default;
 
-int main()
-{
-	size_t chessboard_size;
-	printf("Please input the chessboard size:");
-	scanf("%zd", &chessboard_size);
-	--(done <<= chessboard_size);
+  std::size_t solve() { search(0, 0, 0); return counter; }
+};
 
-	printf("%zd queens problem\n", chessboard_size);
-	clock_t start = clock();
-	search(0, 0, 0);
-	clock_t finish = clock();
-	double duration = (double)((finish - start) / CLOCKS_PER_SEC);
-	printf("Find %u solutions in %lf seconds\n", count, duration);
-
-	return 0;
+template<typename T>
+void NQueens<T>::search(const T cl, const T ld, const T rd) {
+  if (cl != done) {
+    for (T state = done & ~(cl | ld | rd); state; ) {
+      const T place = state & -state;
+      state -= place;
+      search(cl + place, (ld + place) << 1, (rd + place) >> 1);
+    }
+  } else {
+    ++counter;
+  }
 }
 
-void search(const unsigned column, const unsigned left_diagonal, const unsigned right_diagonal)
-{	
-	if (column != done)
-	{
-		int state = done & ~(column | left_diagonal | right_diagonal);
-		while (state)
-		{
-			const unsigned position = state & -state;
-			state -= position;
-			search(column + position, (left_diagonal + position) << 1, (right_diagonal + position) >> 1);
-		}
-	}
-	else
-	{
-		++count;
-	}
+int main() {
+  NQueens<uint16_t> queens{8};
+  std::cout << "N queens puzzle:" << queens.solve() << '\n';
+  return 0;
 }
